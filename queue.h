@@ -1,11 +1,9 @@
-typedef struct Node
-{
+typedef struct Node {
     int inf;
     struct Node *link;
 } Node;
 
-typedef struct Queue
-{
+typedef struct Queue {
     Node *BegQ;
     Node *EndQ;
 } Queue;
@@ -17,3 +15,4 @@ int is_empty(Queue *q);
 void selection_sort(Queue *q);
 void read_queue(Queue *q);
 void write_to_file(Queue *q, const char *filename);
+void print_file_content(const char *filename);
