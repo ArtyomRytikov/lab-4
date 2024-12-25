@@ -15,8 +15,7 @@ void add_element(Queue *q, int inf)
     Node *new_node = (Node *)malloc(sizeof(Node));
     if (new_node == NULL)
     {
-        fprintf(stderr, "Ошибка при выделении памяти\n");
-        exit(1);
+        printf("Ошибка при выделении памяти\n");
     }
     new_node->inf = inf;
     new_node->link = NULL;
@@ -36,8 +35,7 @@ int del_element(Queue *q)
 {
     if (is_empty(q))
     {
-        fprintf(stderr, "Ошибка: очередь пуста\n");
-        exit(1);
+        printf("Ошибка: очередь пуста\n");
     }
     Node *temp = q->BegQ;
     int inf = temp->inf;
@@ -131,8 +129,7 @@ void write_to_file(Queue *q, const char *filename)
     FILE *file = fopen(filename, "w");
     if (file == NULL)
     {
-        fprintf(stderr, "Ошибка при открытии файла %s\n", filename);
-        exit(1);
+        printf("Ошибка при открытии файла %s\n", filename);
     }
 
     fprintf(file, "Исходная последовательность: ");
