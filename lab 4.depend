@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1735078667 source:c:\users\Àנע¸ל\desktop\ןלט\lab 4\main.c
+1735132168 source:c:\users\Àנע¸ל\desktop\ןלט\lab 4\main.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
 	<locale.h>
 	"queue.h"
 
-1735078604 c:\users\Àנע¸ל\desktop\ןלט\lab 4\queue.h
+1735131042 c:\users\Àנע¸ל\desktop\ןלט\lab 4\queue.h
 
-1735077047 source:c:\users\Àנע¸ל\desktop\ןלט\lab 4\queue.c
+1735132022 source:c:\users\Àנע¸ל\desktop\ןלט\lab 4\queue.c
 	<stdlib.h>
 	<stdio.h>
 	<string.h>

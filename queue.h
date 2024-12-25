@@ -16,3 +16,5 @@ void selection_sort(Queue *q);
 void read_queue(Queue *q);
 void write_to_file(Queue *q, const char *filename);
 void print_file_content(const char *filename);
+void quick_sort(Queue *q);
+void sort_queue(Queue *q, int sort_method);

@@ -161,8 +161,7 @@ void print_file_content(const char *filename)
     FILE *file = fopen(filename, "r");
     if (file == NULL)
     {
-        fprintf(stderr, "Ошибка при открытии файла %s\n", filename);
-        exit(1);
+        printf("Ошибка при открытии файла %s\n", filename);
     }
 
     char buffer[100];
@@ -172,4 +171,70 @@ void print_file_content(const char *filename)
     }
 
     fclose(file);
+}
+// Сортировка очереди методом Хоара
+void quick_sort(Queue *q)
+{
+    if (is_empty(q) || q->BegQ->link == NULL)
+    {
+        return; // Очередь пуста или содержит один элемент
+    }
+
+    Queue less, equal, greater;
+    init_queue(&less);
+    init_queue(&equal);
+    init_queue(&greater);
+
+    Node *pivot = q->BegQ;
+    int pivot_value = pivot->inf;
+
+    while (!is_empty(q))
+    {
+        int value = del_element(q);
+        if (value < pivot_value)
+        {
+            add_element(&less, value);
+        }
+        else if (value == pivot_value)
+        {
+            add_element(&equal, value);
+        }
+        else
+        {
+            add_element(&greater, value);
+        }
+    }
+
+    quick_sort(&less);
+    quick_sort(&greater);
+
+    // Переносим отсортированные очереди обратно в исходную
+    while (!is_empty(&less))
+    {
+        add_element(q, del_element(&less));
+    }
+    while (!is_empty(&equal))
+    {
+        add_element(q, del_element(&equal));
+    }
+    while (!is_empty(&greater))
+    {
+        add_element(q, del_element(&greater));
+    }
+}
+// Выбор сортировки
+void sort_queue(Queue *q, int sort_method)
+{
+    if (sort_method == 1)
+    {
+        selection_sort(q);
+    }
+    else if (sort_method == 2)
+    {
+        quick_sort(q);
+    }
+    else
+    {
+        printf("Неверный метод сортировки. Используйте 1 для сортировки методом прямого выбора или 2 для сортировки методом Хоара.\n");
+    }
 }
