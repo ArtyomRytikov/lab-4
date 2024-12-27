@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     if (argc < 2)
     {
         printf("Использование:\n");
-        printf("1. Для сравнения скорости сортировок: %s --compare <max_size> <step>\n", argv[0]);
+        printf("1. Для сравнения скорости сортировок: %s --compare <размер_списка> \n", argv[0]);
         printf("2. Для сортировки и записи в файл: %s --file <имя_файла> <1|2>\n", argv[0]);
         printf("1 - сортировка методом прямого выбора\n");
         printf("2 - сортировка методом Хоара\n");
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     {
         if (argc != 3)
         {
-            printf("Для сравнения скорости сортировок используйте: %s --compare <max_size> \n", argv[0]);
+            printf("Для сравнения скорости сортировок используйте: %s --compare <размер_списка> \n", argv[0]);
             return 0;
         }
 
