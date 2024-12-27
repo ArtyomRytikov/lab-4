@@ -269,7 +269,7 @@ double measure_sort_time(Queue *q, int sort_method)
     return cpu_time_used;
 }
 
-// Сравнение скорости сортировок на разных размерах данных
+// Сравнение скорости сортировок
 void compare_sorting_performance(int max_size)
 {
         Queue q1, q2;
@@ -283,8 +283,8 @@ void compare_sorting_performance(int max_size)
         double quick_sort_time = measure_sort_time(&q2, 2);
 
         printf("Размер очереди: %d\n",  max_size);
-        printf("Сортировка методом прямого выбора: %.6f сек\n", selection_sort_time);
-        printf("Сортировка методом Хоара: %.6f сек\n", quick_sort_time);
+        printf("Сортировка методом прямого выбора: %.10f сек\n", selection_sort_time);
+        printf("Сортировка методом Хоара: %.10f сек\n", quick_sort_time);
         printf("\n");
 }
 
