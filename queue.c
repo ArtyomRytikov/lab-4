@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "queue.h"
 
 // Инициализация очереди
@@ -16,6 +17,7 @@ void add_element(Queue *q, int inf)
     if (new_node == NULL)
     {
         printf("Ошибка при выделении памяти\n");
+        exit(1);
     }
     new_node->inf = inf;
     new_node->link = NULL;
@@ -36,6 +38,7 @@ int del_element(Queue *q)
     if (is_empty(q))
     {
         printf("Ошибка: очередь пуста\n");
+        exit(1);
     }
     Node *temp = q->BegQ;
     int inf = temp->inf;
@@ -108,67 +111,6 @@ void selection_sort(Queue *q)
     q->EndQ = sorted.EndQ;
 }
 
-// Чтение очереди из стандартного ввода
-void read_queue(Queue *q)
-{
-    char input[100];
-    printf("Введите последовательность элементов через пробел (для завершения ввода нажмите Enter): \n");
-    fgets(input, sizeof(input), stdin);
-
-    char *token = strtok(input, " ");
-    while (token != NULL) {
-        int value = atoi(token);
-        add_element(q, value);
-        token = strtok(NULL, " ");
-    }
-}
-
-// Запись очереди в файл
-void write_to_file(Queue *q, const char *filename)
-{
-    FILE *file = fopen(filename, "w");
-    if (file == NULL)
-    {
-        printf("Ошибка при открытии файла %s\n", filename);
-    }
-
-    fprintf(file, "Исходная последовательность: ");
-    Node *current = q->BegQ;
-    while (current != NULL)
-    {
-        fprintf(file, "%d ", current->inf);
-        current = current->link;
-    }
-    fprintf(file, "\n");
-    selection_sort(q);
-    fprintf(file, "Отсортированная последовательность: ");
-    current = q->BegQ;
-    while (current != NULL)
-    {
-        fprintf(file, "%d ", current->inf);
-        current = current->link;
-    }
-    fprintf(file, "\n");
-    fclose(file);
-}
-
-// Вывод содержимого файла
-void print_file_content(const char *filename)
-{
-    FILE *file = fopen(filename, "r");
-    if (file == NULL)
-    {
-        printf("Ошибка при открытии файла %s\n", filename);
-    }
-
-    char buffer[100];
-    while (fgets(buffer, sizeof(buffer), file) != NULL)
-    {
-        printf("%s", buffer);
-    }
-
-    fclose(file);
-}
 // Сортировка очереди методом Хоара
 void quick_sort(Queue *q)
 {
@@ -219,6 +161,7 @@ void quick_sort(Queue *q)
         add_element(q, del_element(&greater));
     }
 }
+
 // Выбор сортировки
 void sort_queue(Queue *q, int sort_method)
 {
@@ -235,3 +178,113 @@ void sort_queue(Queue *q, int sort_method)
         printf("Неверный метод сортировки. Используйте 1 для сортировки методом прямого выбора или 2 для сортировки методом Хоара.\n");
     }
 }
+
+// Чтение очереди из стандартного ввода
+void read_queue(Queue *q)
+{
+    char input[100];
+    printf("Введите последовательность элементов через пробел (для завершения ввода нажмите Enter): \n");
+    fgets(input, sizeof(input), stdin);
+
+    char *token = strtok(input, " ");
+    while (token != NULL) {
+        int value = atoi(token);
+        add_element(q, value);
+        token = strtok(NULL, " ");
+    }
+}
+
+// Запись очереди в файл
+void write_to_file(Queue *q, const char *filename)
+{
+    FILE *file = fopen(filename, "w");
+    if (file == NULL)
+    {
+        printf("Ошибка при открытии файла %s\n", filename);
+        exit(1);
+    }
+
+    fprintf(file, "Исходная последовательность: ");
+    Node *current = q->BegQ;
+    while (current != NULL)
+    {
+        fprintf(file, "%d ", current->inf);
+        current = current->link;
+    }
+    fprintf(file, "\n");
+
+    selection_sort(q);
+
+    fprintf(file, "Отсортированная последовательность: ");
+    current = q->BegQ;
+    while (current != NULL)
+    {
+        fprintf(file, "%d ", current->inf);
+        current = current->link;
+    }
+    fprintf(file, "\n");
+
+    fclose(file);
+}
+
+// Вывод содержимого файла
+void print_file_content(const char *filename)
+{
+    FILE *file = fopen(filename, "r");
+    if (file == NULL)
+    {
+        printf("Ошибка при открытии файла %s\n", filename);
+        exit(1);
+    }
+
+    char buffer[100];
+    while (fgets(buffer, sizeof(buffer), file) != NULL)
+    {
+        printf("%s", buffer);
+    }
+
+    fclose(file);
+}
+
+// Создание очереди с случайными числами
+void create_random_queue(Queue *q, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        add_element(q, rand() % 1000);
+    }
+}
+
+// Измерение времени выполнения сортировки
+double measure_sort_time(Queue *q, int sort_method)
+{
+    clock_t start, end;
+    double cpu_time_used;
+
+    start = clock();
+    sort_queue(q, sort_method);
+    end = clock();
+
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    return cpu_time_used;
+}
+
+// Сравнение скорости сортировок на разных размерах данных
+void compare_sorting_performance(int max_size)
+{
+        Queue q1, q2;
+        init_queue(&q1);
+        init_queue(&q2);
+
+        create_random_queue(&q1, max_size);
+        create_random_queue(&q2, max_size);
+
+        double selection_sort_time = measure_sort_time(&q1, 1);
+        double quick_sort_time = measure_sort_time(&q2, 2);
+
+        printf("Размер очереди: %d\n",  max_size);
+        printf("Сортировка методом прямого выбора: %.6f сек\n", selection_sort_time);
+        printf("Сортировка методом Хоара: %.6f сек\n", quick_sort_time);
+        printf("\n");
+}
+
